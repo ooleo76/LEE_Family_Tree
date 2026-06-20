@@ -5,84 +5,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>山內村 李氏族譜 · 即時世系</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <style>
 :root{
-  --paper:#efe7d6;--ink:#2a2420;--ink-soft:#5d544a;--lacquer:#2b1a17;
+  --paper:#efe7d6;--ink:#2a2420;--ink-soft:#5d544a;--lacquer:#2b1a17;--lacquer-2:#3a2420;
   --cinnabar:#b22a1f;--cinnabar-soft:#c4584c;--gold:#c9a227;--gold-soft:#d8bd6a;
-  --muted:#8a7e6a;--line:rgba(42,36,32,.16);
+  --muted:#8a7e6a;--line:rgba(42,36,32,.16);--line-strong:rgba(42,36,32,.3);
   --c-m:#b22a1f;--c-f:#9b7b3a;--c-x:#6f665a;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper)}
-body{display:flex;flex-direction:column;overflow:hidden}
-.topbar{flex:0 0 auto;background:linear-gradient(160deg,var(--lacquer),#3a2420);color:#f3e9d2;padding:9px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--gold);z-index:20}
-.brand{font-family:"Noto Serif TC",serif;font-weight:900;font-size:18px;letter-spacing:.06em;color:#f7eed6;white-space:nowrap}
-.brand .dot{color:var(--cinnabar-soft)}
-.brand small{display:block;font-family:"Noto Sans TC";font-weight:400;font-size:10px;color:#cbb98f;letter-spacing:.16em;margin-top:1px}
-.spacer{flex:1}
-.seg{display:flex;border:1px solid rgba(201,162,39,.5);border-radius:4px;overflow:hidden}
-.seg button{font-family:inherit;font-size:12.5px;font-weight:500;color:#e7d9b8;background:transparent;border:0;border-left:1px solid rgba(201,162,39,.3);padding:6px 10px;cursor:pointer;white-space:nowrap}
+html,body{margin:0;height:100%}
+body{font-family:"Noto Sans TC",system-ui,sans-serif;color:var(--ink);background:var(--paper);
+  display:flex;flex-direction:column;overflow:hidden}
+.serif{font-family:"Noto Serif TC",serif}
+
+/* ===== HERO（接回最初的介紹） ===== */
+header.hero{flex:0 0 auto;position:relative;background:linear-gradient(160deg,var(--lacquer),var(--lacquer-2));
+  color:#f3e9d2;padding:22px 22px 16px;overflow:hidden;border-bottom:3px solid var(--gold)}
+header.hero::before{content:"隴 西";position:absolute;top:8px;right:20px;writing-mode:vertical-rl;
+  font-family:"Noto Serif TC",serif;font-weight:900;font-size:80px;color:rgba(201,162,39,.10);letter-spacing:.1em;line-height:.9;pointer-events:none}
+.hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:2;display:flex;align-items:flex-end;gap:26px;flex-wrap:wrap}
+.hero-main{flex:1 1 360px;min-width:260px}
+.eyebrow{font-size:11.5px;letter-spacing:.34em;color:var(--gold-soft);font-weight:700;margin-bottom:8px}
+.hero h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(28px,5vw,46px);margin:0 0 4px;letter-spacing:.06em;color:#f7eed6}
+.hero h1 .dot{color:var(--cinnabar-soft)}
+.hero .sub{font-family:"Noto Serif TC",serif;font-size:clamp(13px,2vw,16px);color:#d9c9a4;letter-spacing:.12em;margin-bottom:10px}
+.founder{display:inline-flex;align-items:center;gap:12px;background:rgba(0,0,0,.22);border:1px solid rgba(201,162,39,.4);border-radius:4px;padding:8px 16px}
+.founder .tag{font-size:10px;letter-spacing:.3em;color:var(--gold-soft);writing-mode:vertical-rl;line-height:1}
+.founder .nm{font-family:"Noto Serif TC",serif;font-weight:700;font-size:20px;letter-spacing:.16em;color:#f7eed6}
+.founder .nm small{display:block;font-size:11px;color:#cbb98f;font-weight:400;letter-spacing:.08em;margin-top:2px}
+.origin{font-size:12px;color:#cdbd97;line-height:1.85;border-left:2px solid var(--cinnabar);padding-left:12px;margin-top:10px;max-width:560px}
+.origin b{color:#eaddbc;font-weight:500}
+.hero-stats{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.stat .num{font-family:"Noto Serif TC",serif;font-weight:900;font-size:26px;color:var(--gold-soft);line-height:1}
+.stat .num .mf{font-size:14px;color:#cbb98f;font-weight:500}
+.stat .lbl{font-size:10.5px;letter-spacing:.16em;color:#b6a888;margin-top:4px}
+.src-line{flex-basis:100%;font-size:11px;color:#b6a888;margin-top:4px}
+.dot-live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#54c483;margin-right:5px;vertical-align:1px}
+.dot-demo{background:var(--gold)}
+
+/* ===== TOOLBAR ===== */
+.toolbar{flex:0 0 auto;background:rgba(239,231,214,.96);border-bottom:1px solid var(--line-strong);
+  padding:8px 14px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;z-index:20}
+.seg{display:flex;border:1.5px solid var(--line-strong);border-radius:4px;overflow:hidden;background:var(--paper)}
+.seg button{font-family:inherit;font-size:13px;font-weight:500;color:var(--ink-soft);background:transparent;border:0;border-left:1px solid var(--line);padding:7px 11px;cursor:pointer;white-space:nowrap}
 .seg button:first-child{border-left:0}
 .seg button.on{background:var(--cinnabar);color:#fff}
-.search input{font-family:inherit;font-size:13px;color:#f3e9d2;background:rgba(0,0,0,.25);border:1px solid rgba(201,162,39,.4);border-radius:4px;padding:6px 10px;width:140px;outline:none}
-.search input::placeholder{color:#b6a888}
-.tbtn{font-family:inherit;font-size:12.5px;color:#e7d9b8;background:rgba(0,0,0,.2);border:1px solid rgba(201,162,39,.4);border-radius:4px;padding:6px 9px;cursor:pointer;white-space:nowrap}
-.tbtn:hover{background:rgba(178,42,31,.35);border-color:var(--cinnabar-soft)}
-.tbtn.act{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
+.search{flex:1 1 150px;position:relative;min-width:120px}
+.search input{width:100%;font-family:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1.5px solid var(--line-strong);border-radius:4px;padding:7px 12px;outline:none}
+.search input:focus{border-color:var(--cinnabar)}
+.btn{font-family:inherit;font-size:13px;font-weight:500;color:var(--ink-soft);background:var(--paper);border:1.5px solid var(--line-strong);border-radius:4px;padding:7px 10px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--cinnabar);color:var(--cinnabar)}
+.btn.on{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
 
-.stats{flex:0 0 auto;background:rgba(43,26,23,.04);border-bottom:1px solid var(--line);padding:6px 14px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft);z-index:10}
-.stats b{font-family:"Noto Serif TC",serif;color:var(--cinnabar);font-size:15px;font-weight:900;margin-right:3px}
-.stats .m{color:#2f6f9e;font-weight:700}.stats .f{color:#9b7b3a;font-weight:700}
-.stats .src{margin-left:auto;font-size:11px}
-.dot-live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2e9b57;margin-right:5px;vertical-align:1px}
-.dot-demo{background:#c9a227}
-
+/* ===== STAGE ===== */
 .stage{flex:1 1 auto;position:relative;overflow:hidden}
 svg{width:100%;height:100%;display:block;cursor:grab}
 svg:active{cursor:grabbing}
 .link{fill:none;stroke:var(--line);stroke-width:1.4px}
 .link.lineage{stroke:rgba(178,42,31,.32)}
 .node foreignObject{overflow:visible}
-
-.card{
-  width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border:1.5px solid var(--line);border-radius:8px;background:#fbf7ec;cursor:pointer;
-  box-shadow:0 2px 5px rgba(43,26,23,.08);transition:box-shadow .15s,transform .12s,border-color .15s;position:relative;
-}
+.card{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  border:1.5px solid var(--line);border-radius:8px;background:#fbf7ec;cursor:pointer;padding:6px 5px;
+  box-shadow:0 2px 5px rgba(43,26,23,.08);position:relative}
 .card:hover{box-shadow:0 5px 14px rgba(43,26,23,.18)}
-.card.k-m{border-color:rgba(178,42,31,.45)}
-.card.k-f{border-color:rgba(155,123,58,.5)}
-.card.k-x{border-color:var(--line);background:#f6f1e6}
-.card.root{border-color:var(--gold);background:linear-gradient(180deg,#fff7e3,#fbf2db)}
+.card.k-m{border-color:rgba(178,42,31,.45)} .card.k-f{border-color:rgba(155,123,58,.5)}
+.card.k-x{border-color:var(--line);background:#f6f1e6} .card.root{border-color:var(--gold);background:linear-gradient(180deg,#fff7e3,#fbf2db)}
 .card.hit{outline:3px solid var(--gold);outline-offset:1px}
-.who{display:flex;align-items:center;justify-content:center}
-.nm{font-family:"Noto Serif TC",serif;font-weight:700;letter-spacing:.04em;line-height:1.16}
-.k-m .nm{color:var(--cinnabar)} .k-f .nm{color:#86692c} .k-x .nm{color:#3f3a33} .root .nm{color:var(--lacquer)}
-.sp{font-family:"Noto Serif TC",serif;font-weight:500;color:var(--muted);line-height:1.16}
-.sp .mk{color:var(--cinnabar-soft)}
-.role{order:-1;font-size:10.5px;color:#fff;background:var(--c-x);border-radius:8px;padding:0 6px;letter-spacing:.04em;white-space:nowrap}
-.k-m .role{background:var(--c-m)} .k-f .role{background:var(--c-f)} .root .role{background:var(--gold);color:var(--lacquer);font-weight:700}
-.life{font-size:10px;color:var(--ink-soft);margin-top:2px;white-space:nowrap}
-.ph{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:2px}
-.kids{position:absolute;background:var(--cinnabar);color:#fff;font-size:10.5px;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--paper);font-weight:700}
+.card .role{font-size:10.5px;color:#fff;background:var(--c-x);border-radius:8px;padding:0 6px;margin-bottom:4px;white-space:nowrap}
+.card.k-m .role{background:var(--c-m)} .card.k-f .role{background:var(--c-f)} .card.root .role{background:var(--gold);color:var(--lacquer);font-weight:700}
+.card .nm{font-family:"Noto Serif TC",serif;font-weight:700;font-size:18px;letter-spacing:.05em;
+  writing-mode:vertical-rl;line-height:1.18;white-space:nowrap}
+.card.k-m .nm{color:var(--cinnabar)} .card.k-f .nm{color:#86692c} .card.k-x .nm{color:#3f3a33} .card.root .nm{color:var(--lacquer)}
+.card .sp{font-family:"Noto Serif TC",serif;font-size:14px;font-weight:500;color:var(--muted);
+  margin-top:5px;text-align:center;max-width:100%;line-height:1.35;word-break:break-all}
+.card .sp .mk{color:var(--cinnabar-soft);margin-right:1px}
+.card .life{font-size:10px;color:var(--ink-soft);margin-top:3px;white-space:nowrap}
+.card .ph{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);margin-bottom:3px}
+.card .kids{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);background:var(--cinnabar);color:#fff;
+  font-size:10.5px;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid var(--paper);font-weight:700}
 .card.open .kids{background:var(--ink-soft)}
 
-/* ---- 直書（桌機 TB） ---- */
-.tb .card{padding:6px 5px}
-.tb .who{flex-direction:row-reverse;gap:4px;align-items:flex-start}
-.tb .nm{writing-mode:vertical-rl;white-space:nowrap;font-size:17px}
-.tb .sp{writing-mode:vertical-rl;white-space:nowrap;font-size:17px}
-.tb .role{margin-bottom:3px}
-.tb .kids{left:50%;bottom:-10px;transform:translateX(-50%)}
-/* ---- 橫書（手機 LR） ---- */
-.lr .card{padding:5px 8px}
-.lr .who{flex-direction:column}
-.lr .nm{font-size:15px}
-.lr .sp{font-size:15px;margin-top:1px}
-.lr .role{margin-bottom:2px}
-.lr .kids{right:-10px;top:50%;transform:translateY(-50%)}
+/* ===== LIST（手機：第一版縮排清單） ===== */
+#list{position:absolute;inset:0;overflow:auto;padding:10px 12px 60px;display:none}
+.lnode{position:relative}
+.lnode .lkids{margin-left:16px;border-left:1px solid var(--line);padding-left:3px}
+.lnode.lineage>.lkids{border-left:1.5px solid rgba(178,42,31,.3)}
+.lrow{display:flex;align-items:flex-start;gap:6px;padding:5px 6px;border-radius:5px;cursor:pointer}
+.lrow:hover{background:rgba(178,42,31,.06)}
+.lrow.dim{opacity:.34} .lrow.hit{background:rgba(201,162,39,.24)}
+.ltoggle{flex:0 0 16px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px;margin-top:1px}
+.ltoggle.empty{visibility:hidden}
+.lnode.collapsed>.lrow .ltoggle{transform:rotate(-90deg)}
+.lnode.collapsed>.lkids{display:none}
+.lperson{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;flex:1}
+.lnm{font-family:"Noto Serif TC",serif;font-weight:700;font-size:17px;letter-spacing:.04em}
+.k-m .lnm{color:var(--cinnabar)} .k-f .lnm{color:#86692c} .k-x .lnm{color:#3f3a33} .root .lnm{color:var(--lacquer)}
+.lrole{font-size:11px;color:#fff;background:var(--c-x);padding:1px 7px;border-radius:9px;transform:translateY(-1px)}
+.k-m .lrole{background:var(--c-m)} .k-f .lrole{background:var(--c-f)} .root .lrole{background:var(--gold);color:var(--lacquer);font-weight:700}
+.lsp{font-size:14px;color:var(--muted)} .lsp .mk{color:var(--cinnabar-soft);margin-right:1px}
+.llife{font-size:11px;color:var(--ink-soft)}
+.lcnt{font-size:11px;color:var(--muted);align-self:center}
 
 .zoomctl{position:absolute;right:12px;bottom:12px;display:flex;flex-direction:column;gap:6px;z-index:15}
 .zoomctl button{width:36px;height:36px;border:1px solid var(--line);background:#fbf7ec;border-radius:8px;font-size:17px;color:var(--ink-soft);cursor:pointer;box-shadow:0 2px 6px rgba(43,26,23,.12)}
@@ -91,32 +115,49 @@ svg:active{cursor:grabbing}
 .legend{position:absolute;left:12px;bottom:12px;background:rgba(251,247,236,.92);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:11.5px;color:var(--ink-soft);z-index:15;line-height:1.85}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
 .legend .sm{background:var(--c-m)}.legend .sf{background:var(--c-f)}.legend .sx{background:var(--c-x)}
-.banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--ink-soft);z-index:5}
+.banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--ink-soft);z-index:5;max-width:80%}
 .banner .big{font-family:"Noto Serif TC",serif;font-size:17px;color:var(--cinnabar);margin-bottom:8px}
+.banner .sm{font-size:12.5px;line-height:1.7}
 .banner.err .big{color:#a33}
 .spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--cinnabar);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 12px}
 @keyframes sp{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin{animation:none}}
-@media (max-width:600px){.brand small{display:none}.legend{display:none}.search input{width:104px}}
+@media (max-width:760px){
+  header.hero{padding:16px 16px 12px}
+  .origin{display:none}
+  .hero-inner{gap:14px}
+  .legend{display:none}
+}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="brand">山內村<span class="dot">·</span>李氏族譜<small>雲林 · 元長 · 山內村　即時世系</small></div>
-  <div class="seg" id="branchSeg">
-    <button data-b="all" class="on">全部</button>
-    <button data-b="0">大房</button><button data-b="1">二房</button><button data-b="2">三房</button>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-main">
+      <div class="eyebrow">福建 泉州府 南安縣 十六都 芙蓉鄉　·　隴西李氏</div>
+      <h1>山內村<span class="dot">·</span>李氏族譜</h1>
+      <div class="sub">雲林縣 元長鄉 山內村　大房頂房 世系</div>
+      <div class="founder"><span class="tag">始 祖</span><span class="nm">李 萬<small>配　吳碟 六娘</small></span></div>
+      <div class="origin">李氏先祖世居<b>福建泉州府南安縣十六都芙蓉鄉</b>，渡海移居<b>雲林縣元長鄉</b>。始祖李萬育三子——<b>李墻、李仁、李居</b>，分為三房；大房頂房定居<b>元長鄉山內村</b>。</div>
+    </div>
+    <div class="hero-stats" id="stats"></div>
   </div>
-  <div class="spacer"></div>
+</header>
+
+<div class="toolbar">
+  <div class="seg" id="branchSeg">
+    <button data-b="all" class="on">全部</button><button data-b="0">大房</button><button data-b="1">二房</button><button data-b="2">三房</button>
+  </div>
   <div class="search"><input id="search" type="search" placeholder="搜尋姓名…" autocomplete="off"></div>
-  <button class="tbtn" id="orientBtn" title="切換直式／橫式">▦ 版面</button>
-  <button class="tbtn" id="expandAll">展開</button>
-  <button class="tbtn" id="collapseAll">收合</button>
-  <button class="tbtn" id="refresh">↻</button>
+  <button class="btn" id="viewBtn">▦ 圖形／清單</button>
+  <button class="btn" id="expandAll">展開</button>
+  <button class="btn" id="collapseAll">收合</button>
+  <button class="btn" id="refresh">↻</button>
 </div>
-<div class="stats" id="stats"></div>
+
 <div class="stage">
   <svg id="svg"><g id="viewport"></g></svg>
+  <div id="list"></div>
   <div class="legend">
     <span><i class="sm"></i>李氏男系</span>　<span><i class="sf"></i>李氏女系</span>　<span><i class="sx"></i>外姓子孫</span><br>
     <span style="color:var(--muted)">點節點＝放大並展開／收合　·　拖曳平移　·　滾輪縮放</span>
@@ -129,198 +170,232 @@ svg:active{cursor:grabbing}
 
 <script>
 /* ===================== 設定區 =====================
-   填入 GAS 網頁應用程式網址（部署後 .../exec），即可即時連動。
-   做法見另附「族譜_GAS_Code.gs」。留空則用內建示範資料（你們完整族譜）。 */
+   填入 GAS 網頁應用程式網址（部署後 .../exec），即可即時讀取試算表。
+   做法見「族譜_設定說明」。本檔不含任何族譜內容，資料全部來自試算表。 */
 const GAS_URL = "https://script.google.com/macros/s/AKfycbwdGQ8nY5v1Flr7_nbikamK7euOnJ7THLW0wLxEqQn3oSl-n8MLbgWMyreI_ywvunTnZQ/exec";
-const HOUSE_LABELS = ["大房 李墻","二房 李仁","三房 李居"];
-const FOUNDER = { name:"李萬", spouse:["吳碟六娘"] };
-const DEMO_DATA = {"李墻": [{"第一代": "李墻", "備註": "", "子女": "子", "配偶": "李張趇、李蔡蟶"}, {"第二代": "李宗獻", "備註": "李墻長子", "子女": "子", "配偶": ""}, {"第三代": "李水盛", "備註": "李宗獻子", "子女": "子", "配偶": ""}, {"第四代": "李嘉彬", "備註": "李水盛長子", "子女": "子", "配偶": ""}, {"第五代": "李全城", "備註": "李嘉彬子", "子女": "子", "配偶": ""}, {"第六代": "李宜毅", "備註": "李全城子", "子女": "子", "配偶": ""}, {"第四代": "李嘉盛", "備註": "李水盛次子", "子女": "子", "配偶": ""}, {"第五代": "李冠慶", "備註": "李嘉盛長子", "子女": "子", "配偶": ""}, {"第五代": "李錦騰", "備註": "李嘉盛次子", "子女": "子", "配偶": ""}, {"第六代": "李杰瑞", "備註": "李錦騰子", "子女": "子", "配偶": ""}, {"第二代": "李玉山", "備註": "李墻次子", "子女": "子", "配偶": "李蘇朌"}, {"第三代": "李一雄", "備註": "李玉山子", "子女": "子", "配偶": ""}], "李仁": [{"第一代": "李仁", "備註": "", "子女": "子", "配偶": "李林香、李廖芋"}, {"第二代": "李連續", "備註": "李仁長子", "子女": "子", "配偶": "李陳美"}, {"第三代": "李世元", "備註": "李連續長子", "子女": "子", "配偶": "許秀梅"}, {"第四代": "李志雄", "備註": "李世元長子", "子女": "子", "配偶": ""}, {"第四代": "李志亮", "備註": "李世元次子", "子女": "子", "配偶": ""}, {"第四代": "李振富", "備註": "李世元三子", "子女": "子", "配偶": ""}, {"第五代": "李宗顥", "備註": "李振富子", "子女": "子", "配偶": ""}, {"第四代": "李志順", "備註": "李世元四子", "子女": "子", "配偶": ""}, {"第五代": "李定翊", "備註": "李志順子", "子女": "子", "配偶": ""}, {"第三代": "李世銘", "備註": "李連續次子", "子女": "子", "配偶": "許如鶴、（佚名）"}, {"第四代": "李昭賢", "備註": "李世銘長子", "子女": "子", "配偶": ""}, {"第五代": "李濬淵", "備註": "李昭賢長子", "子女": "子", "配偶": ""}, {"第六代": "李宏冺", "備註": "李濬淵子", "子女": "子", "配偶": ""}, {"第五代": "李睿達", "備註": "李昭賢次子", "子女": "子", "配偶": ""}, {"第五代": "李博鈞", "備註": "李昭賢三子", "子女": "子", "配偶": ""}, {"第三代": "李世勳", "備註": "李仁三子", "子女": "子", "配偶": ""}, {"第四代": "李炎曉", "備註": "李世勳長子", "子女": "子", "配偶": ""}, {"第四代": "李秉松", "備註": "李世勳次子", "子女": "子", "配偶": ""}, {"第三代": "李世卿", "備註": "李世四子", "子女": "子", "配偶": ""}, {"第三代": "李世彰", "備註": "李世五子", "子女": "子", "配偶": ""}, {"第三代": "李世寬", "備註": "李世六子", "子女": "子", "配偶": "高春女"}, {"第四代": "李志峰", "備註": "李世寬長子", "子女": "子", "配偶": ""}, {"第四代": "李志恆", "備註": "李世寬次子", "子女": "子", "配偶": ""}, {"第二代": "李火", "備註": "李仁次子", "子女": "子", "配偶": ""}, {"第三代": "南雄", "備註": "李火子", "子女": "子", "配偶": ""}], "李居": [{"第一代": "李居", "備註": "李萬三子", "子女": "子", "配偶": "李吳欗、李陳耀金、李蔡調順"}, {"第二代": "李秀", "備註": "李居長女", "子女": "女", "配偶": "黃行(麻)"}, {"第三代": "黃坤和", "備註": "李秀長子", "子女": "子", "配偶": "吳阿繭"}, {"第四代": "黃順明", "備註": "黃坤和長子", "子女": "子", "配偶": "黃美惠"}, {"第五代": "黃加緣", "備註": "黃順明長女", "子女": "女", "配偶": ""}, {"第六代": "張安泰", "備註": "黃加緣長子", "子女": "子", "配偶": ""}, {"第六代": "張安邦", "備註": "黃加緣次子", "子女": "子", "配偶": ""}, {"第五代": "黃姝蓁", "備註": "黃順明次女", "子女": "女", "配偶": ""}, {"第五代": "黃朝陽", "備註": "黃順明長子", "子女": "子", "配偶": ""}, {"第四代": "黃真蘭", "備註": "黃坤和長女", "子女": "女", "配偶": "許進一"}, {"第五代": "許容慈", "備註": "黃真蘭女", "子女": "女", "配偶": ""}, {"第五代": "許家銓", "備註": "黃真蘭子", "子女": "子", "配偶": ""}, {"第四代": "黃金蓮", "備註": "黃坤和次女", "子女": "女", "配偶": "施文正"}, {"第五代": "施燕靜", "備註": "黃金蓮女", "子女": "女", "配偶": "陳歆貴"}, {"第六代": "施盈嘉", "備註": "施燕靜子", "子女": "子", "配偶": "劉晏恣"}, {"第七代": "施文", "備註": "施盈嘉長子", "子女": "子", "配偶": ""}, {"第七代": "施煒峻", "備註": "施盈嘉次子", "子女": "子", "配偶": ""}, {"第四代": "黃順仕", "備註": "黃坤和次子", "子女": "子", "配偶": ""}, {"第三代": "黃梅雪", "備註": "李秀長女", "子女": "女", "配偶": ""}, {"第三代": "黃坤世", "備註": "李秀次子", "子女": "子", "配偶": ""}, {"第三代": "黃政", "備註": "李秀三子", "子女": "子", "配偶": ""}, {"第三代": "黃烈", "備註": "李秀四子", "子女": "子", "配偶": ""}, {"第三代": "黃珠枝", "備註": "李秀次女", "子女": "女", "配偶": ""}, {"第二代": "李清輝", "備註": "李居長子", "子女": "子", "配偶": "李蔡也"}, {"第三代": "李鵬鑾", "備註": "李清輝長女", "子女": "女", "配偶": "李丁財"}, {"第四代": "李淑美", "備註": "李鵬鑾長女", "子女": "女", "配偶": "呂興義"}, {"第五代": "呂景璇", "備註": "李淑美女", "子女": "女", "配偶": "吳彥宏"}, {"第六代": "吳維紜", "備註": "呂景璇長女", "子女": "女", "配偶": ""}, {"第六代": "吳庭妁", "備註": "呂景璇次女", "子女": "女", "配偶": ""}, {"第六代": "吳庭安", "備註": "呂景璇三女", "子女": "女", "配偶": ""}, {"第五代": "呂奕賢", "備註": "李淑美子", "子女": "子", "配偶": "高韻婷"}, {"第四代": "李玉堂", "備註": "李鵬鑾長子", "子女": "子", "配偶": "沈明珠"}, {"第五代": "李佩娟", "備註": "李玉堂長女", "子女": "女", "配偶": ""}, {"第五代": "李佩珊", "備註": "李玉堂次女", "子女": "女", "配偶": ""}, {"第四代": "李玉成", "備註": "李鵬鑾次子", "子女": "子", "配偶": "黃琇玟"}, {"第五代": "李佩宸", "備註": "李玉成長女", "子女": "女", "配偶": ""}, {"第五代": "李佩婷", "備註": "李玉成次女", "子女": "女", "配偶": ""}, {"第三代": "李佳鋒", "備註": "李清輝長子", "子女": "子", "配偶": "唐阿蘭"}, {"第四代": "李淑幸", "備註": "李佳鋒長女", "子女": "女", "配偶": "Raffaele Pompilii"}, {"第四代": "李孟峻", "備註": "李佳鋒長子", "子女": "子", "配偶": "蔡淑萍"}, {"第五代": "李冠逸", "備註": "李孟峻長子", "子女": "子", "配偶": ""}, {"第五代": "李冠慶", "備註": "李孟峻次子", "子女": "子", "配偶": ""}, {"第四代": "李偉聖", "備註": "李佳鋒次子", "子女": "子", "配偶": "吳郁華"}, {"第五代": "李冠潁", "備註": "李偉聖長子", "子女": "子", "配偶": ""}, {"第二代": "李德芳", "備註": "李居次子", "子女": "子", "配偶": "李丁秀鸞"}, {"第三代": "李錦網", "備註": "李德芳長女", "子女": "女", "配偶": "方彥滔"}, {"第四代": "方雅惠", "備註": "李錦網女", "子女": "女", "配偶": "吳國銘"}, {"第五代": "吳光平", "備註": "方雅惠長子", "子女": "子", "配偶": ""}, {"第五代": "吳柏享", "備註": "方雅惠次子", "子女": "子", "配偶": ""}, {"第三代": "李光揚", "備註": "李德芳長子", "子女": "子", "配偶": "黃碧玉"}, {"第四代": "李佳蓁", "備註": "李光揚女", "子女": "女", "配偶": "彭昌意"}, {"第五代": "彭茂宸", "備註": "李佳蓁子", "子女": "子", "配偶": ""}, {"第五代": "彭宥棋", "備註": "李佳蓁女", "子女": "女", "配偶": ""}, {"第四代": "李岳樺", "備註": "李光揚子", "子女": "子", "配偶": "康綾君"}, {"第五代": "李康齊", "備註": "李岳樺子", "子女": "子", "配偶": ""}, {"第三代": "李錦端", "備註": "李德芳次女", "子女": "女", "配偶": "宋雪林"}, {"第四代": "宋飛雄", "備註": "李錦端長子", "子女": "子", "配偶": "曾美華"}, {"第五代": "宋奕霖", "備註": "宋飛雄長子", "子女": "子", "配偶": ""}, {"第五代": "宋奕霆", "備註": "宋飛雄次子", "子女": "子", "配偶": ""}, {"第四代": "宋飛龍", "備註": "李錦端次子", "子女": "子", "配偶": "鍾秀玲"}, {"第五代": "宋奕暄", "備註": "宋飛龍子", "子女": "子", "配偶": ""}, {"第五代": "宋睿妮", "備註": "宋飛龍長女", "子女": "女", "配偶": ""}, {"第五代": "宋睿慈", "備註": "宋飛龍次女", "子女": "女", "配偶": ""}, {"第三代": "李昆浦", "備註": "李德芳次子", "子女": "子", "配偶": "施鳳珍"}, {"第四代": "李懷恩", "備註": "李昆浦長子", "子女": "子", "配偶": ""}, {"第四代": "李懷德", "備註": "李昆浦次子", "子女": "子", "配偶": ""}, {"第五代": "李楊宥", "備註": "李懷德子", "子女": "子", "配偶": ""}, {"第四代": "李慕慈", "備註": "李昆浦女", "子女": "女", "配偶": "橋本康弘"}, {"第四代": "李懷達", "備註": "李昆浦三子", "子女": "子", "配偶": ""}, {"第三代": "李錦蕋", "備註": "李德芳三女", "子女": "女", "配偶": "顏來旺"}, {"第四代": "顏吉宏", "備註": "李錦蕋長子", "子女": "子", "配偶": "洪瓊如"}, {"第五代": "顏彤恩", "備註": "顏吉宏長女", "子女": "女", "配偶": ""}, {"第五代": "顏子晴", "備註": "顏吉宏次女", "子女": "女", "配偶": ""}, {"第四代": "顏祝利", "備註": "李錦蕋次子", "子女": "子", "配偶": ""}, {"第三代": "李峻鴻", "備註": "李德芳三子", "子女": "子", "配偶": "陳素英"}, {"第四代": "李育全", "備註": "李峻鴻子", "子女": "子", "配偶": ""}, {"第四代": "李佳穗", "備註": "李峻鴻女", "子女": "女", "配偶": ""}, {"第三代": "李峻松", "備註": "李德芳四子", "子女": "子", "配偶": "丁惠玲"}, {"第四代": "李易修", "備註": "李峻松長子", "子女": "子", "配偶": "許甄育"}, {"第五代": "李胤丞", "備註": "李易修長子", "子女": "子", "配偶": ""}, {"第五代": "李胤宇", "備註": "李易修次子", "子女": "子", "配偶": ""}, {"第四代": "李家瑜", "備註": "李峻松女", "子女": "女", "配偶": "蕭智勇"}, {"第五代": "蕭云婰", "備註": "李家瑜女", "子女": "女", "配偶": ""}, {"第四代": "李易君", "備註": "李峻松次子", "子女": "子", "配偶": "劉芝妍"}, {"第三代": "李峻銘", "備註": "李德芳五子", "子女": "子", "配偶": "依濤香"}, {"第四代": "李佳佳", "備註": "李峻銘女", "子女": "女", "配偶": ""}, {"第四代": "李宥民", "備註": "李峻銘子", "子女": "子", "配偶": ""}, {"第二代": "李碧桃", "備註": "李居次女", "子女": "女", "配偶": "蘇三奇"}, {"第三代": "蘇幸助", "備註": "李碧桃長子", "子女": "子", "配偶": ""}, {"第三代": "蘇秀蓮", "備註": "李碧桃長女", "子女": "女", "配偶": ""}, {"第三代": "蘇本鴻", "備註": "李碧桃次子", "子女": "子", "配偶": ""}, {"第三代": "蘇秀芬", "備註": "李碧桃次女", "子女": "女", "配偶": ""}, {"第三代": "蘇秀明", "備註": "李碧桃三子", "子女": "子", "配偶": ""}, {"第二代": "李秋貴", "備註": "李居三女", "子女": "女", "配偶": "黃磨"}, {"第三代": "黃尊敬", "備註": "李秋貴長子", "子女": "子", "配偶": "吳桂美"}, {"第四代": "黃武雄", "備註": "黃尊敬長子", "子女": "子", "配偶": "張素綾"}, {"第五代": "黃鈺秀", "備註": "黃武雄女", "子女": "女", "配偶": ""}, {"第五代": "黃冠閔", "備註": "黃武雄子", "子女": "子", "配偶": ""}, {"第四代": "黃瑞君", "備註": "黃尊敬長女", "子女": "女", "配偶": "連新添"}, {"第五代": "連偉澤", "備註": "黃瑞君子", "子女": "子", "配偶": ""}, {"第五代": "連思婷", "備註": "黃瑞君長女", "子女": "女", "配偶": "簡緯盛"}, {"第六代": "簡沛瑜", "備註": "連思婷女", "子女": "女", "配偶": ""}, {"第六代": "簡崇凱", "備註": "連思婷子", "子女": "子", "配偶": ""}, {"第五代": "連怡瑄", "備註": "黃瑞君次女", "子女": "女", "配偶": "章佳凡"}, {"第四代": "黃于珊", "備註": "黃尊敬次女", "子女": "女", "配偶": "陳義忠"}, {"第五代": "陳坤厚", "備註": "黃于珊長子", "子女": "子", "配偶": ""}, {"第五代": "陳冠宇", "備註": "黃于珊次子", "子女": "子", "配偶": ""}, {"第四代": "黃皇燈", "備註": "黃尊敬次子", "子女": "子", "配偶": ""}, {"第三代": "黃錦和", "備註": "李秋貴次子", "子女": "子", "配偶": "林月霞"}, {"第四代": "黃于青", "備註": "黃錦和女", "子女": "女", "配偶": "張家榮"}, {"第五代": "張子軒", "備註": "黃于青子", "子女": "子", "配偶": ""}, {"第四代": "黃勛勇", "備註": "黃錦和子", "子女": "子", "配偶": ""}, {"第二代": "李榮昌", "備註": "李居三子", "子女": "子", "配偶": "李吳玉燕"}, {"第三代": "李素蘭", "備註": "李榮昌長女", "子女": "女", "配偶": "楊益南"}, {"第四代": "楊宜芳", "備註": "李素蘭長女", "子女": "女", "配偶": "王誌鋒"}, {"第五代": "王文靖", "備註": "楊宜芳女", "子女": "女", "配偶": ""}, {"第五代": "王文釗", "備註": "楊宜芳子", "子女": "子", "配偶": ""}, {"第四代": "楊宜津", "備註": "李素蘭次女", "子女": "女", "配偶": "陳奎元"}, {"第五代": "陳冠榮", "備註": "楊宜津子", "子女": "子", "配偶": ""}, {"第四代": "楊啟宏", "備註": "李素蘭長子", "子女": "子", "配偶": "錢衍蓁"}, {"第五代": "楊詠心", "備註": "楊啟宏子", "子女": "子", "配偶": ""}, {"第五代": "楊軒齊", "備註": "楊啟宏女", "子女": "女", "配偶": ""}, {"第四代": "楊啟益", "備註": "李素蘭次子", "子女": "子", "配偶": ""}, {"第三代": "李青山", "備註": "李榮昌長子", "子女": "子", "配偶": "盧靜枝"}, {"第四代": "李品萱", "備註": "李青山長女", "子女": "女", "配偶": ""}, {"第四代": "李孟儒", "備註": "李青山長子", "子女": "子", "配偶": "王于禎"}, {"第五代": "李柔漪", "備註": "李孟儒女", "子女": "女", "配偶": ""}, {"第四代": "李品佳", "備註": "李青山次女", "子女": "女", "配偶": ""}, {"第三代": "李素女", "備註": "李榮昌次女", "子女": "女", "配偶": "顏晉功"}, {"第四代": "顏日美", "備註": "李素女長女", "子女": "女", "配偶": ""}, {"第四代": "顏仕美", "備註": "李素女次女", "子女": "女", "配偶": "黃國豪"}, {"第四代": "顏乃釗", "備註": "李素女長子", "子女": "女", "配偶": ""}, {"第三代": "李素津", "備註": "李榮昌三女", "子女": "女", "配偶": "吳明哲"}, {"第四代": "吳勇潮", "備註": "李素津子", "子女": "子", "配偶": "薛喻文"}, {"第五代": "吳彥霆", "備註": "吳勇潮子", "子女": "子", "配偶": ""}, {"第五代": "吳佳穎", "備註": "吳勇潮女", "子女": "女", "配偶": ""}, {"第四代": "吳佩華", "備註": "李素津女", "子女": "女", "配偶": "盧書炫"}, {"第五代": "盧沅均", "備註": "吳佩華仔", "子女": "子", "配偶": ""}, {"第三代": "李玲媛", "備註": "李榮昌四女", "子女": "女", "配偶": "袁光耀"}, {"第四代": "袁倩瑩", "備註": "李玲媛女", "子女": "女", "配偶": "簡清華"}, {"第五代": "簡楷心", "備註": "袁倩瑩女", "子女": "女", "配偶": ""}, {"第四代": "袁鈞麒", "備註": "李玲媛子", "子女": "子", "配偶": ""}, {"第三代": "李建立", "備註": "李榮昌次子", "子女": "子", "配偶": "顏麗芬"}, {"第四代": "李書瑜", "備註": "李建立女", "子女": "女", "配偶": ""}, {"第二代": "李忠義", "備註": "李居四子", "子女": "子", "配偶": "李劉麗卿"}, {"第三代": "李銘煌", "備註": "李忠義長子", "子女": "子", "配偶": "曾鳳儀"}, {"第四代": "李欣芸", "備註": "李銘煌長女", "子女": "女", "配偶": "顏柃宗"}, {"第五代": "顏頡宜", "備註": "李欣芸長子", "子女": "子", "配偶": ""}, {"第五代": "顏弘霖", "備註": "李欣芸次子", "子女": "子", "配偶": ""}, {"第四代": "李佩怡", "備註": "李銘煌次女", "子女": "女", "配偶": "陳緯倫"}, {"第五代": "陳柏宇", "備註": "李佩怡子", "子女": "子", "配偶": ""}, {"第三代": "李純菁", "備註": "李忠義長女", "子女": "女", "配偶": "周炎發"}, {"第四代": "張凱恩", "備註": "李純菁長子", "子女": "子", "配偶": ""}, {"第四代": "周淑敏", "備註": "李純菁女", "子女": "女", "配偶": ""}, {"第四代": "周凱仁", "備註": "李純菁次子", "子女": "子", "配偶": ""}, {"第三代": "李銘彬", "備註": "李忠義次子", "子女": "子", "配偶": ""}, {"第四代": "李沛淥", "備註": "李銘彬子", "子女": "子", "配偶": ""}, {"第四代": "李亞軒", "備註": "李銘彬女", "子女": "女", "配偶": ""}, {"第三代": "李銘汾", "備註": "李忠義三子", "子女": "子", "配偶": "孫珠燕"}, {"第四代": "李宜庭", "備註": "李銘汾女", "子女": "女", "配偶": ""}, {"第二代": "李東漢", "備註": "早年夭折", "子女": "子", "配偶": ""}, {"第二代": "李文雄", "備註": "李居五子", "子女": "子", "配偶": "李王素嬌"}, {"第三代": "李美玲", "備註": "李文雄女", "子女": "女", "配偶": "矢口真造"}, {"第四代": "矢口惠理", "備註": "李美玲女", "子女": "女", "配偶": "吳承達"}, {"第五代": "吳紗衣", "備註": "矢口惠理女", "子女": "女", "配偶": ""}, {"第三代": "李木松", "備註": "李文雄長子", "子女": "子", "配偶": ""}, {"第四代": "李恩佑", "備註": "李木松子", "子女": "子", "配偶": ""}, {"第三代": "李俊毅", "備註": "李文雄次子", "子女": "子", "配偶": "唐靜婷"}, {"第四代": "李京倫", "備註": "李俊毅子", "子女": "子", "配偶": ""}, {"第四代": "李艾倫", "備註": "李俊毅女", "子女": "女", "配偶": ""}, {"第二代": "李振欽", "備註": "李居六子", "子女": "子", "配偶": "李范碧蓮"}, {"第三代": "李純惠", "備註": "李振欽長女", "子女": "女", "配偶": "周緒曜"}, {"第四代": "周佑達", "備註": "李純惠子", "子女": "子", "配偶": "李宛蓉"}, {"第五代": "周秉澄", "備註": "周佑達子", "子女": "子", "配偶": ""}, {"第三代": "李瑤君", "備註": "李振欽次女", "子女": "女", "配偶": "劉貢碩"}, {"第四代": "劉奕逸", "備註": "李瑤君長子", "子女": "子", "配偶": "周省言"}, {"第四代": "劉屹剛", "備註": "李瑤君次子", "子女": "子", "配偶": ""}, {"第三代": "李承仲", "備註": "李振欽長子", "子女": "子", "配偶": "賴惠萍"}, {"第四代": "李侑芯", "備註": "李承仲長女", "子女": "女", "配偶": ""}, {"第四代": "李宥嬉", "備註": "李承仲次女", "子女": "女", "配偶": ""}, {"第二代": "李彩華", "備註": "李居四女", "子女": "女", "配偶": "蕭懷昌"}, {"第三代": "蕭維川", "備註": "李彩華長子", "子女": "子", "配偶": "黃淑貞"}, {"第四代": "蕭朝元", "備註": "蕭維川長子", "子女": "子", "配偶": "石蕙綝"}, {"第四代": "蕭連鵬", "備註": "蕭維川次子", "子女": "子", "配偶": "賴玨年"}, {"第五代": "蕭允澧", "備註": "蕭連鵬長子", "子女": "子", "配偶": ""}, {"第五代": "蕭靖知", "備註": "蕭連鵬次子", "子女": "子", "配偶": ""}, {"第三代": "蕭惠美", "備註": "李彩華長女", "子女": "女", "配偶": "王源祥"}, {"第四代": "王英慈", "備註": "蕭惠美長女", "子女": "女", "配偶": "洪振城"}, {"第五代": "洪苡恩", "備註": "王英慈子", "子女": "子", "配偶": ""}, {"第四代": "王禺閑", "備註": "蕭惠美次女", "子女": "女", "配偶": "徐俊雄"}, {"第五代": "徐冠宇", "備註": "王禺閑長子", "子女": "子", "配偶": ""}, {"第五代": "徐立恆", "備註": "王禺閑次子", "子女": "子", "配偶": ""}, {"第四代": "王勝弘", "備註": "蕭惠美子", "子女": "子", "配偶": ""}, {"第三代": "蕭惠悅", "備註": "李彩華次女", "子女": "女", "配偶": "呂進忠"}, {"第四代": "呂淯誠", "備註": "蕭惠悅長子", "子女": "子", "配偶": "許宜雯"}, {"第五代": "呂之辰", "備註": "呂淯誠子", "子女": "子", "配偶": ""}, {"第五代": "呂楀瑄", "備註": "呂淯誠女", "子女": "女", "配偶": ""}, {"第四代": "呂騏", "備註": "蕭惠悅女", "子女": "女", "配偶": ""}, {"第四代": "呂宜憲", "備註": "蕭惠悅次子", "子女": "子", "配偶": "李佩涵"}, {"第三代": "蕭維德", "備註": "李彩華次子", "子女": "子", "配偶": "林那慧"}, {"第四代": "蕭皓中", "備註": "蕭維德長子", "子女": "子", "配偶": "林明"}, {"第五代": "蕭傑文", "備註": "蕭皓中長子", "子女": "子", "配偶": ""}, {"第五代": "蕭羿程", "備註": "蕭皓中次子", "子女": "子", "配偶": ""}, {"第四代": "蕭柏彥", "備註": "蕭維德次子", "子女": "子", "配偶": "楊佳陵"}, {"第四代": "蕭佳瑩", "備註": "蕭維德女", "子女": "女", "配偶": ""}, {"第二代": "李壽郎", "備註": "李居七子", "子女": "子", "配偶": "李吳勉"}, {"第三代": "李聰煇", "備註": "李壽郎長子", "子女": "子", "配偶": "余素娥"}, {"第四代": "李佳臻", "備註": "李聰煇女", "子女": "女", "配偶": ""}, {"第四代": "李佳叡", "備註": "李聰煇子", "子女": "子", "配偶": ""}, {"第三代": "李鴻毅", "備註": "李壽郎次子", "子女": "子", "配偶": "張玫婷"}, {"第四代": "李威辰", "備註": "李鴻毅長子", "子女": "子", "配偶": ""}, {"第四代": "李威佑", "備註": "李鴻毅次子", "子女": "子", "配偶": ""}, {"第三代": "李曜廷", "備註": "李壽郎三子", "子女": "子", "配偶": "黃千容"}, {"第四代": "李佳純", "備註": "李曜廷女", "子女": "女", "配偶": ""}, {"第四代": "李秉恩", "備註": "李曜廷子", "子女": "子", "配偶": ""}, {"第二代": "李采微", "備註": "李居五女", "子女": "女", "配偶": "王慶國"}, {"第三代": "王書蘋", "備註": "李采微長女", "子女": "女", "配偶": "楊耀燊"}, {"第四代": "楊格林", "備註": "王書蘋女", "子女": "女", "配偶": "鄭峻傑"}, {"第四代": "楊世頡", "備註": "王書蘋子", "子女": "子", "配偶": "趙芷欣"}, {"第五代": "楊以安", "備註": "楊世頡子", "子女": "子", "配偶": ""}, {"第三代": "王關太", "備註": "李采微長子", "子女": "子", "配偶": "張淑美"}, {"第四代": "王信惟", "備註": "王關太子", "子女": "子", "配偶": "林庭如"}, {"第五代": "王語菲", "備註": "王信惟長女", "子女": "女", "配偶": ""}, {"第五代": "王語昕", "備註": "王信惟次女", "子女": "女", "配偶": ""}, {"第四代": "王馨儀", "備註": "王關太女", "子女": "女", "配偶": "吳育全"}, {"第五代": "吳承祐", "備註": "王馨儀長子", "子女": "子", "配偶": ""}, {"第五代": "吳承熙", "備註": "王馨儀次子", "子女": "子", "配偶": ""}, {"第三代": "王岱淇", "備註": "李采微次子", "子女": "子", "配偶": "李子萱"}, {"第四代": "王致妤", "備註": "王岱淇長女", "子女": "女", "配偶": "Dawinderpai Sharma"}, {"第五代": "Arya Sharma", "備註": "王致妤子", "子女": "子", "配偶": ""}, {"第四代": "王致柔", "備註": "王岱淇次女", "子女": "女", "配偶": ""}, {"第四代": "王致婷", "備註": "王岱淇三女", "子女": "女", "配偶": "傅堃棋"}, {"第四代": "王致賢", "備註": "王岱淇子", "子女": "子", "配偶": "郭庭均"}, {"第五代": "王玥尹", "備註": "王致賢女", "子女": "女", "配偶": ""}, {"第二代": "李敏紅", "備註": "李居六女", "子女": "女", "配偶": "陳榮霖"}, {"第三代": "陳美娟", "備註": "李敏紅長女", "子女": "女", "配偶": "黃嘉庸"}, {"第四代": "黃馨慧", "備註": "陳美娟女", "子女": "女", "配偶": "蕭嘉文"}, {"第四代": "黃崇華", "備註": "陳美娟子", "子女": "子", "配偶": ""}, {"第三代": "陳重光", "備註": "李敏紅長子", "子女": "子", "配偶": "鍾瓊湄"}, {"第四代": "陳杰奕", "備註": "陳重光長子", "子女": "子", "配偶": ""}, {"第四代": "陳杰彥", "備註": "陳重光次子", "子女": "子", "配偶": ""}, {"第四代": "陳詠琪", "備註": "陳重光女", "子女": "女", "配偶": ""}, {"第三代": "陳美如", "備註": "李敏紅次女", "子女": "女", "配偶": "莊國興"}, {"第四代": "莊定軒", "備註": "陳美如長子", "子女": "子", "配偶": ""}, {"第四代": "莊定綸", "備註": "陳美如次子", "子女": "子", "配偶": ""}, {"第三代": "陳麗光", "備註": "李敏紅三女", "子女": "女", "配偶": "陳漢陽"}, {"第四代": "陳泫叡", "備註": "陳麗光子", "子女": "子", "配偶": ""}, {"第四代": "陳奕妘", "備註": "陳麗光女", "子女": "女", "配偶": ""}, {"第三代": "陳麗曲", "備註": "李敏紅四女", "子女": "女", "配偶": "謝啟興"}, {"第四代": "謝承澔", "備註": "陳麗曲子", "子女": "子", "配偶": ""}, {"第三代": "陳重宇", "備註": "李敏紅次子", "子女": "子", "配偶": "盧群雅"}, {"第四代": "陳柏安", "備註": "陳重宇長子", "子女": "子", "配偶": ""}, {"第四代": "陳力洋", "備註": "陳重宇次子", "子女": "子", "配偶": ""}, {"第二代": "李三和", "備註": "李居八子", "子女": "子", "配偶": "李阿梅"}, {"第三代": "李朱慧", "備註": "李三和長女", "子女": "女", "配偶": "黃俊銘"}, {"第四代": "黃鑠淯", "備註": "李朱慧長女", "子女": "女", "配偶": ""}, {"第四代": "黃鑠惟", "備註": "李朱慧次女", "子女": "女", "配偶": ""}, {"第三代": "李啟川", "備註": "李三和子", "子女": "子", "配偶": "謝自潔"}, {"第四代": "李沂謙", "備註": "李啟川子", "子女": "子", "配偶": ""}, {"第四代": "李沂襄", "備註": "李啟川女", "子女": "女", "配偶": ""}, {"第三代": "李雅惠", "備註": "李三和次女", "子女": "女", "配偶": ""}, {"第二代": "李阿貞", "備註": "李居七女", "子女": "女", "配偶": "籃慶陸"}, {"第三代": "籃婕瑩", "備註": "李阿貞長女", "子女": "女", "配偶": ""}, {"第三代": "籃國懋", "備註": "李阿貞長子", "子女": "子", "配偶": "盧燕貞"}, {"第四代": "籃立翔", "備註": "籃國懋長子", "子女": "子", "配偶": ""}, {"第四代": "籃立崴", "備註": "籃國懋次子", "子女": "子", "配偶": ""}, {"第三代": "籃佩瑩", "備註": "李阿貞次女", "子女": "女", "配偶": "蔡瑞民"}, {"第四代": "蔡文瑀", "備註": "籃佩瑩長女", "子女": "女", "配偶": ""}, {"第四代": "蔡文潼", "備註": "籃佩瑩次女", "子女": "女", "配偶": ""}, {"第二代": "李秋霞", "備註": "李居八女", "子女": "女", "配偶": "盧清次"}, {"第三代": "盧盈錦", "備註": "李秋霞長女", "子女": "女", "配偶": ""}, {"第三代": "盧麒丞", "備註": "李秋霞長子", "子女": "子", "配偶": "李子欣"}, {"第四代": "盧竑予", "備註": "盧麒丞子", "子女": "子", "配偶": ""}, {"第三代": "盧宗男", "備註": "李秋霞次子", "子女": "子", "配偶": "張淑華"}]};
+const FOUNDER = { name:"李萬", spouse:["吳碟六娘"] };   // 始祖（試算表未收錄，僅作樹頂靜態節點）
+const HAS_D3 = (typeof d3 !== 'undefined');
 
 /* ---------- 工具 ---------- */
 const CN={'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10};
-function genOfKey(k){ const m=String(k).match(/^第(.+)代$/); if(!m) return null; const s=m[1]; return CN[s]||parseInt(s)||null; }
-function numCN(n){ const a=['','一','二','三','四','五','六','七','八','九','十']; if(n<=10) return a[n]; if(n<20) return '十'+a[n-10]; return String(n); }
-function rankRole(n,sex){ const r = n===1?'長':n===2?'次':numCN(n); return r+(sex==='女'?'女':'子'); }
-function parentName(note){ if(!note) return ''; return note.replace(/[長次三四五六七八九十兩幼么元滿大小細]?[子女男]$/,'').trim(); }
-function kindOf(name,sex){ const sur=(name||'').trim().charAt(0); if(sur!=='李') return 'x'; return sex==='女'?'f':'m'; }
+function genOfKey(k){const m=String(k).match(/^第(.+)代$/);if(!m)return null;return CN[m[1]]||parseInt(m[1])||null;}
+function numCN(n){const a=['','一','二','三','四','五','六','七','八','九','十'];if(n<=10)return a[n];if(n<20)return '十'+a[n-10];return String(n);}
+function rankRole(n,sex){return (n===1?'長':n===2?'次':numCN(n))+(sex==='女'?'女':'子');}
+function parentName(note){return note?note.replace(/[長次三四五六七八九十兩幼么元滿大小細]?[子女男]$/,'').trim():'';}
+function kindOf(name,sex){const s=(name||'').trim().charAt(0);if(s!=='李')return 'x';return sex==='女'?'f':'m';}
 
-/* ---------- rows(一房) -> 樹根 ---------- */
 function buildHouse(rows){
   const nodes=[];
   rows.forEach((r,idx)=>{
     let gen=null,name='';
-    for(const k in r){ const g=genOfKey(k); if(g && String(r[k]).trim()){ gen=g; name=String(r[k]).trim(); break; } }
-    if(!name) return;
+    for(const k in r){const g=genOfKey(k);if(g&&String(r[k]).trim()){gen=g;name=String(r[k]).trim();break;}}
+    if(!name)return;
     const note=(r['備註']||'').trim();
     const sexCN=(String(r['子女']||'').trim()==='女')?'女':'子';
-    const sp=(r['配偶']||'').trim()? String(r['配偶']).split(/[、,，]/).map(s=>s.trim()).filter(Boolean):[];
-    nodes.push({ row:idx, gen, name, note, sexCN, gender:sexCN==='女'?'女':'男',
-      spouse:sp, birth:(r['生年']||'').trim(), death:(r['卒年']||'').trim(), photo:(r['照片網址']||r['照片']||'').trim(),
-      kind:kindOf(name,sexCN), role:'', children:[] });
+    const sp=(r['配偶']||'').trim()?String(r['配偶']).split(/[、,，]/).map(s=>s.trim()).filter(Boolean):[];
+    nodes.push({row:idx,gen,name,note,sexCN,gender:sexCN==='女'?'女':'男',spouse:sp,
+      birth:(r['生年']||'').trim(),death:(r['卒年']||'').trim(),photo:(r['照片網址']||r['照片']||'').trim(),
+      kind:kindOf(name,sexCN),role:'',children:[]});
   });
-  // 連結父子
   let root=null;
   nodes.forEach((n,i)=>{
-    if(n.gen===1){ if(!root){ root=n; } return; }
-    const pn=parentName(n.note);
-    let parent=null;
-    for(let j=i-1;j>=0;j--){ if(nodes[j].gen===n.gen-1 && nodes[j].name===pn){ parent=nodes[j]; break; } }
-    if(!parent) for(let j=i-1;j>=0;j--){ if(nodes[j].gen===n.gen-1){ parent=nodes[j]; break; } }
+    if(n.gen===1){if(!root)root=n;return;}
+    const pn=parentName(n.note);let parent=null;
+    for(let j=i-1;j>=0;j--){if(nodes[j].gen===n.gen-1&&nodes[j].name===pn){parent=nodes[j];break;}}
+    if(!parent)for(let j=i-1;j>=0;j--){if(nodes[j].gen===n.gen-1){parent=nodes[j];break;}}
     (parent||root).children.push(n);
   });
-  // 自動排行（依列順序、分男女）
-  (function rank(n){ let c=0,d=0; n.children.forEach(k=>{ if(k.sexCN==='女'){d++;k.role=rankRole(d,'女');} else {c++;k.role=rankRole(c,'子');} rank(k); }); })(root);
+  (function rank(n){let c=0,d=0;n.children.forEach(k=>{if(k.sexCN==='女'){d++;k.role=rankRole(d,'女');}else{c++;k.role=rankRole(c,'子');}rank(k);});})(root);
   return root;
 }
 function buildModel(dataObj){
-  const keys=Object.keys(dataObj);
-  const houses=keys.map(k=>buildHouse(dataObj[k]));
-  houses.forEach((h,i)=>h.role='');
-  return { name:FOUNDER.name, role:'始祖', sexCN:'子', gender:'男', kind:'root', spouse:FOUNDER.spouse.slice(), birth:'',death:'',photo:'', children:houses };
+  const houses=Object.keys(dataObj).map(k=>buildHouse(dataObj[k])).filter(Boolean);
+  houses.forEach((h,i)=>h.role=rankRole(i+1,'子'));
+  return {name:FOUNDER.name,role:'始祖',sexCN:'子',gender:'男',kind:'root',spouse:FOUNDER.spouse.slice(),
+    birth:'',death:'',photo:'',children:houses};
 }
 
-/* ---------- 取資料（GAS JSONP）---------- */
-function jsonp(url){ return new Promise((res,rej)=>{
-  const cb='__fam_'+Math.random().toString(36).slice(2);
-  const s=document.createElement('script');
-  window[cb]=d=>{ res(d); delete window[cb]; s.remove(); };
-  s.onerror=()=>{ rej(new Error('JSONP 失敗')); s.remove(); };
-  s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;
-  document.body.appendChild(s);
-  setTimeout(()=>{ if(window[cb]){ delete window[cb]; s.remove(); rej(new Error('逾時')); } },12000);
+/* ---------- 取資料（僅試算表） ---------- */
+function jsonp(url){return new Promise((res,rej)=>{
+  const cb='__fam_'+Math.random().toString(36).slice(2);const s=document.createElement('script');
+  window[cb]=d=>{res(d);delete window[cb];s.remove();};
+  s.onerror=()=>{rej(new Error('JSONP 失敗'));s.remove();};
+  s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;document.body.appendChild(s);
+  setTimeout(()=>{if(window[cb]){delete window[cb];s.remove();rej(new Error('逾時'));}},12000);
 });}
-let MODEL=null, SOURCE='demo';
+let MODEL=null,SOURCE='';
 async function loadModel(){
+  if(window.__MOCK__){MODEL=buildModel(window.__MOCK__);SOURCE='mock';return true;}   // 本機測試用，正式檔不含
   if(GAS_URL){
-    try{ const j=await jsonp(GAS_URL); if(j&&j.ok&&j.data){ MODEL=buildModel(j.data); SOURCE='live'; return; } throw new Error('格式錯誤'); }
-    catch(e){ console.error(e); showBanner('讀取試算表失敗，改用示範資料。請確認 GAS 已部署為「任何人」可存取，網址正確。',true); }
+    try{const j=await jsonp(GAS_URL);if(j&&j.ok&&j.data){MODEL=buildModel(j.data);SOURCE='live';return true;}throw new Error('格式錯誤');}
+    catch(e){console.error(e);MODEL=null;SOURCE='err';return false;}
   }
-  MODEL=buildModel(DEMO_DATA); SOURCE='demo';
+  MODEL=null;SOURCE='none';return false;
 }
 
-/* ---------- d3 ---------- */
-const svg=d3.select('#svg'), vp=d3.select('#viewport');
-let ORIENT = (window.innerWidth>=820)?'TB':'LR';   // 桌機上→下直書；手機左→右
-const DIM={ TB:{w:80,h:122,cross:104,level:165}, LR:{w:132,h:60,cross:74,level:200} };
-let zoom=d3.zoom().scaleExtent([0.08,2.2]).on('zoom',e=>vp.attr('transform',e.transform));
-svg.call(zoom);
-let rootD3=null, currentRootData=null, uid=0;
-
-function applyOrientClass(){ document.getElementById('viewport').setAttribute('class', ORIENT==='TB'?'tb':'lr'); }
-function px(d){ return ORIENT==='TB'? d.x : d.depth*DIM.LR.level; }
-function py(d){ return ORIENT==='TB'? d.depth*DIM.TB.level : d.x; }
-
-function countStats(node){ let dir=0,m=0,f=0,sp=0;
-  (function w(n){ if(n.kind!=='root'){ dir++; if(n.gender==='女')f++; else m++; sp+=(n.spouse?n.spouse.filter(x=>x&&x!=='（佚名）').length:0);} (n.children||[]).forEach(w);})(node);
-  return {dir,m,f,sp}; }
+/* ---------- 共用 ---------- */
+let currentRootData=null;
+function countStats(node){let dir=0,m=0,f=0,sp=0;
+  (function w(n){if(n.kind!=='root'){dir++;if(n.gender==='女')f++;else m++;sp+=(n.spouse?n.spouse.filter(x=>x&&x!=='（佚名）').length:0);}(n.children||[]).forEach(w);})(node);
+  return {dir,m,f,sp};}
+function maxDepth(node){let mx=0;(function w(n,d){mx=Math.max(mx,d);(n.children||[]).forEach(c=>w(c,d+1));})(node,0);return mx;}
+function maxGen(node){let mx=0;(function w(n){if(n.gen)mx=Math.max(mx,n.gen);(n.children||[]).forEach(w);})(node);return mx;}
 function renderStats(){
-  const s=countStats(currentRootData), live=SOURCE==='live';
+  if(!currentRootData){document.getElementById('stats').innerHTML='';return;}
+  const s=countStats(currentRootData),live=SOURCE==='live';
   document.getElementById('stats').innerHTML=
-   `<span><b>${s.dir}</b>直系子孫</span><span>男 <span class="m">${s.m}</span>　女 <span class="f">${s.f}</span></span>
-    <span><b>${s.dir+s.sp}</b>含配偶總計</span>
-    <span class="src"><span class="dot-live ${live?'':'dot-demo'}"></span>${live?'已連動試算表（即時）':'示範資料（尚未連動）'}</span>`;
+   `<div class="stat"><div class="num">${MODEL.children.length}</div><div class="lbl">大房分支</div></div>
+    <div class="stat"><div class="num">${maxGen(currentRootData)}</div><div class="lbl">傳承世代</div></div>
+    <div class="stat"><div class="num">${s.dir}<span class="mf">（男${s.m}·女${s.f}）</span></div><div class="lbl">直系子孫</div></div>
+    <div class="stat"><div class="num">${s.dir+s.sp}</div><div class="lbl">含配偶總計</div></div>
+    <div class="src-line"><span class="dot-live ${live?'':'dot-demo'}"></span>${live?'已連動試算表（即時）':(SOURCE==='mock'?'本機測試資料':'尚未連動試算表')}</div>`;
 }
 
-const tree=d3.tree();
-function relayout(){ tree.nodeSize([DIM[ORIENT].cross,1]); tree(rootD3); }
-
-function setRoot(dataNode){
-  currentRootData=dataNode;
-  rootD3=d3.hierarchy(dataNode,d=>d.children);
-  rootD3.each(d=>{ if(d.depth>=2 && d.children){ d._children=d.children; d.children=null; } });
-  rootD3.x0=0; rootD3.y0=0;
-  update(rootD3); renderStats(); setTimeout(fitView,60);
+/* ---------- 視圖切換 ---------- */
+let VIEW = (HAS_D3 && window.innerWidth>=820)?'tree':'list';
+function applyViewVisibility(){
+  document.getElementById('svg').style.display = VIEW==='tree'?'block':'none';
+  document.getElementById('list').style.display = VIEW==='list'?'block':'none';
+  document.querySelector('.zoomctl').style.display = VIEW==='tree'?'flex':'none';
+  document.querySelector('.legend').style.display = (VIEW==='tree'&&window.innerWidth>760)?'block':'none';
 }
-function update(source){
-  relayout();
-  const nodes=rootD3.descendants(), links=rootD3.links();
-  const W=DIM[ORIENT].w, H=DIM[ORIENT].h;
 
+/* =========================================================
+   A) 桌機：d3 由上而下、直書名字
+   ========================================================= */
+const svg=HAS_D3?d3.select('#svg'):null, vp=HAS_D3?d3.select('#viewport'):null;
+const DIM={w:96,h:150,cross:118,level:182};
+let zoom=null, tree=null, rootD3=null, uid=0;
+if(HAS_D3){
+  zoom=d3.zoom().scaleExtent([0.08,2.2]).on('zoom',e=>vp.attr('transform',e.transform));
+  svg.call(zoom);
+  tree=d3.tree().nodeSize([DIM.cross,1]);
+}
+function px(d){return d.x;} function py(d){return d.depth*DIM.level;}
+function setTree(){
+  rootD3=d3.hierarchy(currentRootData,d=>d.children);
+  rootD3.each(d=>{if(d.depth>=2&&d.children){d._children=d.children;d.children=null;}});
+  updateTree(rootD3);setTimeout(fitView,60);
+}
+function updateTree(source){
+  tree(rootD3);
+  const nodes=rootD3.descendants(),links=rootD3.links(),W=DIM.w,H=DIM.h;
   const link=vp.selectAll('path.link').data(links,d=>d.target.__id||(d.target.__id=++uid));
   link.exit().remove();
-  link.enter().append('path').attr('class',d=>'link'+linkLineage(d))
-      .attr('d',()=>edge(source.x0s||0,source.y0s||0,source.x0s||0,source.y0s||0,W,H))
-    .merge(link).transition().duration(320)
-      .attr('class',d=>'link'+linkLineage(d))
-      .attr('d',d=>edge(px(d.source),py(d.source),px(d.target),py(d.target),W,H));
-
+  link.enter().append('path').attr('class',d=>'link'+lin(d)).attr('d',()=>el(source.x0||0,source.y0||0,source.x0||0,source.y0||0,H))
+    .merge(link).transition().duration(320).attr('class',d=>'link'+lin(d)).attr('d',d=>el(px(d.source),py(d.source),px(d.target),py(d.target),H));
   const node=vp.selectAll('g.node').data(nodes,d=>d.__id||(d.__id=++uid));
   node.exit().transition().duration(280).style('opacity',0).remove();
-  const en=node.enter().append('g').attr('class','node')
-    .attr('transform',`translate(${source.x0s||0},${source.y0s||0})`).style('opacity',0)
-    .on('click',(e,d)=>{ e.stopPropagation(); toggle(d); zoomTo(d); });
-  en.append('foreignObject');
+  const en=node.enter().append('g').attr('class','node').attr('transform',`translate(${source.x0||0},${source.y0||0})`).style('opacity',0)
+    .on('click',(e,d)=>{e.stopPropagation();toggleTree(d);zoomTo(d);});
+  en.append('foreignObject').attr('width',W).attr('x',-W/2);
   const merged=en.merge(node);
-  merged.select('foreignObject')
-    .attr('width',W).attr('height',H).attr('x',-W/2).attr('y',-H/2).html(d=>cardHTML(d));
+  merged.select('foreignObject').attr('height',H).attr('y',-H/2).html(d=>cardHTML(d));
   merged.transition().duration(320).attr('transform',d=>`translate(${px(d)},${py(d)})`).style('opacity',1);
-
-  nodes.forEach(d=>{ d.x0s=px(d); d.y0s=py(d); });
-  source.x0s=px(source); source.y0s=py(source);
+  nodes.forEach(d=>{d.x0=px(d);d.y0=py(d);});source.x0=px(source);source.y0=py(source);
 }
-function linkLineage(d){ const k=d.target.data.kind; return (k==='m'||k==='root')?' lineage':''; }
-function edge(sx,sy,tx,ty,W,H){
-  if(ORIENT==='TB'){ const my=(sy+ty)/2; return `M${sx},${sy+H/2-5} V${my} H${tx} V${ty-H/2+5}`; }
-  const mx=(sx+tx)/2; return `M${sx+W/2-5},${sy} H${mx} V${ty} H${tx-W/2+5}`;
-}
+function lin(d){const k=d.target.data.kind;return (k==='m'||k==='root')?' lineage':'';}
+function el(sx,sy,tx,ty,H){const my=(sy+ty)/2;return `M${sx},${sy+H/2-6} V${my} H${tx} V${ty-H/2+6}`;}
 function cardHTML(d){
-  const o=d.data, has=d.children||d._children;
-  const cnt=has?(d.children?d.children.length:d._children.length):0, open=!!d.children;
-  let life=''; if(o.birth||o.death){ life=o.death?`${o.birth||'?'}–${o.death}`:`${o.birth}– 在世`; }
-  const role = o.kind==='root'?'始祖':(o.role||'');
+  const o=d.data,has=d.children||d._children,cnt=has?(d.children?d.children.length:d._children.length):0,open=!!d.children;
+  let life='';if(o.birth||o.death)life=o.death?`${o.birth||'?'}–${o.death}`:`${o.birth}– 在世`;
+  const role=o.kind==='root'?'始祖':(o.role||'');
   return `<div class="card k-${o.kind} ${o.kind==='root'?'root':''}" data-name="${o.name} ${(o.spouse||[]).join(' ')}">
-    ${o.photo?`<img class="ph" src="${o.photo}" alt="" onerror="this.style.display='none'">`:''}
-    <div class="who"><span class="nm">${o.name}</span>${(o.spouse&&o.spouse.length)?`<span class="sp"><span class="mk">⚭</span>${o.spouse.join('、')}</span>`:''}</div>
+    ${o.photo?`<img class="ph" src="${o.photo}" onerror="this.style.display='none'">`:''}
     ${role?`<span class="role">${role}</span>`:''}
+    <span class="nm">${o.name}</span>
+    ${(o.spouse&&o.spouse.length)?`<span class="sp"><span class="mk">⚭</span>${o.spouse.join('、')}</span>`:''}
     ${life?`<span class="life">${life}</span>`:''}
     ${cnt?`<span class="kids ${open?'open':''}">${open?'–':cnt}</span>`:''}
   </div>`;
 }
-function toggle(d){ if(d.children){d._children=d.children;d.children=null;} else if(d._children){d.children=d._children;d._children=null;} update(d); }
-
-/* zoom */
-function svgSize(){ const r=svg.node().getBoundingClientRect(); return [r.width,r.height]; }
-function zoomTo(d){ const [w,h]=svgSize(), s=0.9;
-  const t=d3.zoomIdentity.translate(w/2-px(d)*s, (ORIENT==='TB'?h*0.30:h/2)-py(d)*s).scale(s);
-  svg.transition().duration(420).call(zoom.transform,t); }
-function fitView(){ const ns=rootD3.descendants(); if(!ns.length) return;
-  const W=DIM[ORIENT].w,H=DIM[ORIENT].h;
-  const X=ns.map(px),Y=ns.map(py);
-  const x0=Math.min(...X)-W,x1=Math.max(...X)+W,y0=Math.min(...Y)-H,y1=Math.max(...Y)+H;
-  const [w,h]=svgSize(), s=Math.min(1.4,0.92*Math.min(w/(x1-x0),h/(y1-y0)));
-  svg.transition().duration(420).call(zoom.transform, d3.zoomIdentity.translate(w/2-s*(x0+x1)/2,h/2-s*(y0+y1)/2).scale(s)); }
+function toggleTree(d){if(d.children){d._children=d.children;d.children=null;}else if(d._children){d.children=d._children;d._children=null;}updateTree(d);}
+function svgSize(){const r=svg.node().getBoundingClientRect();return [r.width,r.height];}
+function zoomTo(d){const [w,h]=svgSize(),s=0.9;svg.transition().duration(420).call(zoom.transform,d3.zoomIdentity.translate(w/2-px(d)*s,h*0.30-py(d)*s).scale(s));}
+function fitView(){if(!rootD3)return;const ns=rootD3.descendants(),W=DIM.w,H=DIM.h;
+  const X=ns.map(px),Y=ns.map(py);const x0=Math.min(...X)-W,x1=Math.max(...X)+W,y0=Math.min(...Y)-H,y1=Math.max(...Y)+H;
+  const [w,h]=svgSize(),s=Math.min(1.4,0.92*Math.min(w/(x1-x0),h/(y1-y0)));
+  svg.transition().duration(420).call(zoom.transform,d3.zoomIdentity.translate(w/2-s*(x0+x1)/2,h/2-s*(y0+y1)/2).scale(s));}
 document.getElementById('zin').onclick=()=>svg.transition().call(zoom.scaleBy,1.3);
 document.getElementById('zout').onclick=()=>svg.transition().call(zoom.scaleBy,1/1.3);
 document.getElementById('zfit').onclick=fitView;
 
-/* orient toggle */
-document.getElementById('orientBtn').onclick=()=>{ ORIENT=ORIENT==='TB'?'LR':'TB'; applyOrientClass(); update(rootD3); setTimeout(fitView,80); };
-
-/* branch / expand / collapse */
-document.getElementById('branchSeg').addEventListener('click',e=>{ const b=e.target.dataset.b; if(b===undefined)return;
-  document.querySelectorAll('#branchSeg button').forEach(x=>x.classList.toggle('on',x===e.target));
-  setRoot(b==='all'?MODEL:MODEL.children[+b]); });
-document.getElementById('expandAll').onclick=()=>{ rootD3.each(d=>{ if(d._children){d.children=d._children;d._children=null;} }); update(rootD3); setTimeout(fitView,80); };
-document.getElementById('collapseAll').onclick=()=>{ rootD3.each(d=>{ if(d.depth>=1 && d.children){d._children=d.children;d.children=null;} }); update(rootD3); setTimeout(fitView,80); };
-
-/* search */
-let stmr; const se=document.getElementById('search');
-se.addEventListener('input',()=>{clearTimeout(stmr);stmr=setTimeout(doSearch,160);});
-function doSearch(){ const q=se.value.trim(); vp.selectAll('.card').classed('hit',false); if(!q)return;
-  let target=null;
-  (function f(d){ if(d.data.name.includes(q)||(d.data.spouse||[]).some(s=>s.includes(q))) target=target||d; (d.children||d._children||[]).forEach(c=>{c.parent=d;f(c);}); })(rootD3);
-  if(!target) return;
-  let p=target,chain=[]; while(p){chain.unshift(p);p=p.parent;} chain.forEach(d=>{ if(d._children){d.children=d._children;d._children=null;} });
-  update(rootD3);
-  setTimeout(()=>{ vp.selectAll('g.node').filter(d=>d===target).select('.card').classed('hit',true); zoomTo(target); },140);
+/* =========================================================
+   B) 手機：縮排清單（第一版風格）
+   ========================================================= */
+const listEl=document.getElementById('list');
+function setList(){listEl.innerHTML='';listEl.appendChild(listNode(currentRootData,0));}
+function listNode(o,depth){
+  const has=o.children&&o.children.length;
+  const wrap=document.createElement('div');
+  wrap.className='lnode k-'+o.kind+((o.kind==='m'||o.kind==='root')?' lineage':'')+((depth>=2&&has)?' collapsed':'')+(o.kind==='root'?' root':'');
+  let life='';if(o.birth||o.death)life=o.death?`${o.birth||'?'}–${o.death}`:`${o.birth}– 在世`;
+  const role=o.kind==='root'?'始祖':(o.role||'');
+  const row=document.createElement('div');row.className='lrow';
+  row.dataset.name=o.name+' '+(o.spouse||[]).join(' ');
+  row.innerHTML=`<span class="ltoggle ${has?'':'empty'}">▾</span>
+    <span class="lperson"><span class="lnm">${o.name}</span>${role?`<span class="lrole">${role}</span>`:''}
+    ${(o.spouse&&o.spouse.length)?`<span class="lsp"><span class="mk">⚭</span>${o.spouse.join('、')}</span>`:''}
+    ${life?`<span class="llife">${life}</span>`:''}${has?`<span class="lcnt">（${o.children.length}）</span>`:''}</span>`;
+  wrap.appendChild(row);
+  if(has){const kids=document.createElement('div');kids.className='lkids';
+    o.children.forEach(c=>kids.appendChild(listNode(c,depth+1)));wrap.appendChild(kids);
+    row.querySelector('.ltoggle').addEventListener('click',e=>{e.stopPropagation();wrap.classList.toggle('collapsed');});
+    row.addEventListener('click',()=>wrap.classList.toggle('collapsed'));
+  }
+  return wrap;
 }
-document.getElementById('refresh').onclick=async()=>{ showBanner('讀取中…'); await loadModel(); hideBanner(); boot(); };
+
+/* ---------- 視圖統一入口 ---------- */
+function renderActive(){
+  applyViewVisibility();
+  if(!currentRootData)return;
+  if(VIEW==='tree'){vp.selectAll('*').remove();setTree();}
+  else setList();
+}
+function setRoot(node){currentRootData=node;renderStats();renderActive();}
+
+/* ---------- 控制 ---------- */
+document.getElementById('branchSeg').addEventListener('click',e=>{const b=e.target.dataset.b;if(b===undefined||!MODEL)return;
+  document.querySelectorAll('#branchSeg button').forEach(x=>x.classList.toggle('on',x===e.target));
+  setRoot(b==='all'?MODEL:MODEL.children[+b]);});
+document.getElementById('viewBtn').onclick=()=>{if(!HAS_D3)return;VIEW=VIEW==='tree'?'list':'tree';renderActive();};
+document.getElementById('expandAll').onclick=()=>{
+  if(VIEW==='tree'){rootD3.each(d=>{if(d._children){d.children=d._children;d._children=null;}});updateTree(rootD3);setTimeout(fitView,80);}
+  else listEl.querySelectorAll('.lnode').forEach(n=>n.classList.remove('collapsed'));};
+document.getElementById('collapseAll').onclick=()=>{
+  if(VIEW==='tree'){rootD3.each(d=>{if(d.depth>=1&&d.children){d._children=d.children;d.children=null;}});updateTree(rootD3);setTimeout(fitView,80);}
+  else listEl.querySelectorAll('.lnode').forEach(n=>{if(n.querySelector(':scope>.lkids'))n.classList.add('collapsed');});};
+
+let stmr;const se=document.getElementById('search');
+se.addEventListener('input',()=>{clearTimeout(stmr);stmr=setTimeout(doSearch,160);});
+function doSearch(){const q=se.value.trim();
+  if(VIEW==='tree'){
+    vp.selectAll('.card').classed('hit',false);if(!q)return;let target=null;
+    (function f(d){if(d.data.name.includes(q)||(d.data.spouse||[]).some(s=>s.includes(q)))target=target||d;(d.children||d._children||[]).forEach(c=>{c.parent=d;f(c);});})(rootD3);
+    if(!target)return;let p=target,ch=[];while(p){ch.unshift(p);p=p.parent;}ch.forEach(d=>{if(d._children){d.children=d._children;d._children=null;}});
+    updateTree(rootD3);setTimeout(()=>{vp.selectAll('g.node').filter(d=>d===target).select('.card').classed('hit',true);zoomTo(target);},140);
+  }else{
+    const rows=[...listEl.querySelectorAll('.lrow')];rows.forEach(r=>r.classList.remove('hit','dim'));if(!q)return;let any=false;
+    rows.forEach(r=>{if(r.dataset.name.includes(q)){any=true;r.classList.add('hit');let p=r.closest('.lnode');while(p){p.classList.remove('collapsed');p=p.parentElement.closest('.lnode');}}else r.classList.add('dim');});
+    const f=listEl.querySelector('.lrow.hit');if(f)f.scrollIntoView({block:'center',behavior:'smooth'});
+  }
+}
+document.getElementById('refresh').onclick=async()=>{showBanner('讀取中…');const ok=await loadModel();if(ok){hideBanner();boot();}else showNoData();};
+
 function showBanner(m,err){const b=document.getElementById('banner');b.style.display='block';b.className='banner'+(err?' err':'');b.innerHTML=(err?'':'<div class="spin"></div>')+`<div class="big">${err?'⚠ ':''}${m}</div>`;}
+function showNoData(){const b=document.getElementById('banner');b.style.display='block';b.className='banner';
+  b.innerHTML=`<div class="big">尚未連動試算表</div><div class="sm">請依「族譜_設定說明」部署 GAS，<br>並把網址填入本檔最上方的 GAS_URL。<br>填好後重新整理即可顯示族譜。</div>`;
+  document.getElementById('stats').innerHTML='';}
 function hideBanner(){document.getElementById('banner').style.display='none';}
-function boot(){ applyOrientClass(); vp.selectAll('*').remove();
+function boot(){
+  if(!MODEL){showNoData();return;}
+  hideBanner();
   document.querySelectorAll('#branchSeg button').forEach(x=>x.classList.toggle('on',x.dataset.b==='all'));
-  setRoot(MODEL); }
-(async function(){ showBanner('讀取中…'); await loadModel(); hideBanner(); boot(); })();
+  setRoot(MODEL);
+}
+window.addEventListener('resize',()=>{const want=(HAS_D3 && window.innerWidth>=820)?'tree':'list';if(want!==VIEW){VIEW=want;renderActive();}else applyViewVisibility();});
+(async function(){applyViewVisibility();showBanner('讀取中…');const ok=await loadModel();if(ok)boot();else showNoData();})();
 </script>
 </body>
 </html>
