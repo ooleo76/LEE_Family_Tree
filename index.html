@@ -115,13 +115,18 @@ svg:active{cursor:grabbing}
 .legend{position:absolute;left:12px;bottom:12px;background:rgba(251,247,236,.92);border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:11.5px;color:var(--ink-soft);z-index:15;line-height:1.85}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
 .legend .sm{background:var(--c-m)}.legend .sf{background:var(--c-f)}.legend .sx{background:var(--c-x)}
-.banner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--ink-soft);z-index:5;max-width:80%}
+.banner{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:var(--ink-soft);z-index:5;max-width:80%}
 .banner .big{font-family:"Noto Serif TC",serif;font-size:17px;color:var(--cinnabar);margin-bottom:8px}
 .banner .sm{font-size:12.5px;line-height:1.7}
 .banner.err .big{color:#a33}
 .spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--cinnabar);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 12px}
 @keyframes sp{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spin{animation:none}}
+/* 清單模式：整頁一起捲動，上方介紹會捲走、工具列吸頂、清單用整個高度 */
+body.mode-list{overflow:auto;height:auto;display:block}
+body.mode-list .stage{overflow:visible;height:auto}
+body.mode-list #list{position:static;inset:auto;overflow:visible;min-height:60vh}
+body.mode-list .toolbar{position:sticky;top:0}
 @media (max-width:760px){
   header.hero{padding:16px 16px 12px}
   .origin{display:none}
@@ -254,6 +259,8 @@ function renderStats(){
 /* ---------- 視圖切換 ---------- */
 let VIEW = (HAS_D3 && window.innerWidth>=820)?'tree':'list';
 function applyViewVisibility(){
+  document.body.classList.toggle('mode-list', VIEW==='list');
+  document.body.classList.toggle('mode-tree', VIEW!=='list');
   document.getElementById('svg').style.display = VIEW==='tree'?'block':'none';
   document.getElementById('list').style.display = VIEW==='list'?'block':'none';
   document.querySelector('.zoomctl').style.display = VIEW==='tree'?'flex':'none';
